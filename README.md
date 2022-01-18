@@ -7,6 +7,6 @@ jquery　1.11.3
 mysql 8.0.13
 
 下記ディレクトリ配下にて動作。
-Apache2.4/htdocs
+Apache2.4/htdocs/test/
 
 mysql 8.0 インストール時デフォルトで存在するsakilaというDBを使用する。
