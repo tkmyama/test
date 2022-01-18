@@ -7,7 +7,6 @@
 </head>
 
 <body>
-    <p>gittestaaaaaa</p>
     <?php //phpinfo();
         require_once 'controller/index_controller.php';
         $con = new IndexController();

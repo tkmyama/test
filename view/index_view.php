@@ -3,6 +3,32 @@
         <h1 class="text-danger col-12">It works!</h1>
     </div>
     <div class="row">
+        <div class="col-6 text-center">
+            <div class="space1">
+                <div class="center">
+                    <select name="sources" id="sources" class="cstm-select sources" placeholder="Source Type">
+                        <option value="profile">Profile</option>
+                        <option value="word">Word</option>
+                        <option value="hashtag">Hashtag</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 text-center">
+            <div class="space2">
+                <button>Hover me !</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="space3"></div>
+        </div>
+        <div class="col-6">
+            <div class="space4"></div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-12">
             <button id="show_sakila">click show sakila</button>
         </div>

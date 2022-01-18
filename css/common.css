@@ -30,6 +30,13 @@ p {
     white-space: break-spaces;
     padding: 0.3rem;
 }
+
+.space1,.space2{
+    min-height:200px;
+    height:200px;
+}
+
+
 /*以下ローディングCSS*/
 .loading {
     display: none;
