@@ -31,7 +31,11 @@ p {
     padding: 0.3rem;
 }
 
-.space1,.space2{
+.space1,.space2,.space3,.space4{
+    border: 1px solid #333;
+    padding: 1rem;
+}
+.space1,.space2,.space3,.space4{
     min-height:200px;
     height:200px;
 }

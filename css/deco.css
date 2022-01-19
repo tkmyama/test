@@ -1,138 +1,144 @@
 /*space1 start*/
 i.center {
-    position: absolute;
-    display: inline-block;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /** cstm Select **/
 .cstm-select-wrapper {
-    position: relative;
-    display: inline-block;
-    user-select: none;
+  position: relative;
+  display: inline-block;
+  user-select: none;
 }
 
 .cstm-select-wrapper select {
-    display: none;
+  display: none;
 }
 
 .cstm-select {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .cstm-select-trigger {
-    position: relative;
-    display: block;
-    width: 150px;
-    text-align: left;
-    padding: 0 0 0 20px;
-    font-size: 16px;
-    font-weight: 300;
-    color: #fff;
-    line-height: 30px;
-    background: #5c9cd8;
-    border-radius: 4px;
-    cursor: pointer;
+  position: relative;
+  display: block;
+  width: 165px;
+  text-align: left;
+  padding: 0 0 0 10px;
+  font-size: 16px;
+  font-weight: 300;
+  color: #fff;
+  line-height: 30px;
+  background: #5c9cd8;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cstm-select-selected {
+  display:block;
+  width: 80%;
+  height:30px;
 }
 
 .cstm-select-trigger:after {
-    position: absolute;
-    display: block;
-    content: '';
-    width: 10px;
-    height: 10px;
-    top: 50%;
-    right: 15px;
-    margin-top: -3px;
-    border-bottom: 1px solid #fff;
-    border-right: 1px solid #fff;
-    transform: rotate(45deg) translateY(-50%);
-    transition: all .1s ease-in-out;
-    transform-origin: 50% 0;
+  position: absolute;
+  display: block;
+  content: '';
+  width: 10px;
+  height: 10px;
+  top: 50%;
+  right: 10px;
+  margin-top: -3px;
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+  transform: rotate(45deg) translateY(-50%);
+  transition: all .1s ease-in-out;
+  transform-origin: 50% 0;
 }
 
 .cstm-select.opened .cstm-select-trigger:after {
-    margin-top: 3px;
-    transform: rotate(-135deg) translateY(-50%);
+  margin-top: 3px;
+  transform: rotate(-135deg) translateY(-50%);
 }
 
 .cstm-options {
-    position: absolute;
-    display: block;
-    top: 20px;
-    left: 0;
-    right: 0;
-    min-width: 100%;
-    margin: 15px 0;
-    border: 1px solid #b5b5b5;
-    border-radius: 4px;
-    box-sizing: border-box;
-    box-shadow: 0 2px 1px rgba(0, 0, 0, .07);
-    background: #fff;
-    transition: all .1s ease-in-out;
+  position: absolute;
+  display: block;
+  top: 20px;
+  left: 0;
+  right: 0;
+  min-width: 100%;
+  margin: 15px 0;
+  border: 1px solid #555555;
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 1px rgba(0, 0, 0, .07);
+  background: #fff;
+  transition: all .1s ease-in-out;
 
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-15px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-15px);
 }
 
 .cstm-select.opened .cstm-options {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: all;
-    transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transform: translateY(0);
 }
 
 .cstm-options:before {
-    position: absolute;
-    display: block;
-    content: '';
-    bottom: 100%;
-    right: 25px;
-    width: 7px;
-    height: 7px;
-    margin-bottom: -4px;
-    border-top: 1px solid #b5b5b5;
-    border-left: 1px solid #b5b5b5;
-    background: #fff;
-    transform: rotate(45deg);
-    transition: all .1s ease-in-out;
+  position: absolute;
+  display: block;
+  content: '';
+  bottom: 100%;
+  right: 25px;
+  width: 7px;
+  height: 7px;
+  margin-bottom: -4px;
+  border-top: 1px solid #555555;
+  border-left: 1px solid #555555;
+  background: #fff;
+  transform: rotate(45deg);
+  transition: all .1s ease-in-out;
 }
 
 .option-hover:before {
-    background: #f9f9f9;
+  background: #f9f9f9;
 }
 
 .cstm-option {
-    position: relative;
-    display: block;
-    padding: 0 22px;
-    border-bottom: 1px solid #b5b5b5;
-    font-size: 16px;
-    font-weight: 600;
-    color: #b5b5b5;
-    line-height: 30px;
-    cursor: pointer;
-    transition: all .1s ease-in-out;
+  position: relative;
+  display: block;
+  padding: 0 15px;
+  border-bottom: 1px solid #555555;
+  font-size: 12px;
+  font-weight: 600;
+  color: #555555;
+  line-height: 30px;
+  cursor: pointer;
+  transition: all .1s ease-in-out;
 }
 
 .cstm-option:first-of-type {
-    border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
 }
 
 .cstm-option:last-of-type {
-    border-bottom: 0;
-    border-radius: 0 0 4px 4px;
+  border-bottom: 0;
+  border-radius: 0 0 4px 4px;
 }
 
 .cstm-option:hover,
 .cstm-option.selection {
-    background: #f9f9f9;
+  background: #f9f9f9;
 }
+
 /*space1 end*/
 
 /*space2 start*/
@@ -149,40 +155,130 @@ body:before{
   display:inline-block;
   vertical-align:middle;
 }*/
-button{
-  background:#1AAB8A;
-  color:#fff;
-  border:none;
-  position:relative;
-  height:30px;
-  font-size:1rem;
-  padding:0 2em;
-  cursor:pointer;
-  transition:300ms ease all;
-  outline:none;
-}
-button:hover{
-  background:#fff;
-  color:#1AAB8A;
-}
-button:before,button:after{
-  content:'';
-  position:absolute;
-  top:0;
-  right:0;
-  height:2px;
-  width:0;
+.hover_green {
   background: #1AAB8A;
-  transition:150ms ease all;
+  color: #fff;
+  border: none;
+  position: relative;
+  height: 30px;
+  font-size: 1rem;
+  padding: 0 2em;
+  cursor: pointer;
+  transition: 300ms ease all;
+  outline: none;
 }
-button:after{
-  right:inherit;
-  top:inherit;
-  left:0;
-  bottom:0;
+
+.hover_green:hover {
+  background: #fff;
+  color: #1AAB8A;
 }
-button:hover:before,button:hover:after{
-  width:100%;
-  transition:800ms ease all;
+
+.hover_green:before, .hover_green:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #1AAB8A;
+  transition: 150ms ease all;
 }
+
+.hover_green:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+
+.hover_green:hover:before, .hover_green:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}
+
 /*space2 end*/
+
+/*space3 start*/
+.btn-square-so-pop {
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: #FFF;
+  background: #fd9535;
+  /*色*/
+  border-radius: 4px;
+  /*角の丸み*/
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  font-weight: bold;
+  border: solid 2px #d27d00;
+  /*線色*/
+}
+
+.btn-square-so-pop:active {
+  /*押したとき*/
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+  background: #96571c;
+  /*色*/
+}
+
+/*space3 end*/
+/*space4 start*/
+.selectdiv {
+  position: relative;
+  /*Don't really need this just for demo styling*/
+  
+  float: left;
+  min-width: 200px;
+}
+
+/* IE11 hide native button (thanks Matt!) */
+select::-ms-expand {
+display: none;
+}
+
+.selectdiv:after {
+  content: '<>';
+  font: 17px "Consolas", monospace;
+  color: #333;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  right: 11px;
+  /*Adjust for position however you want*/
+  
+  top: 9px;
+  padding: 0 0 2px;
+  border-bottom: 1px solid #999;
+  /*left line */
+  
+  position: absolute;
+  pointer-events: none;
+}
+.selectdiv label{
+  display: block !important;
+} 
+.selectdiv select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Add some styling */
+  
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: 30px;
+  float: right;
+  margin: 5px 0px;
+  padding: 0px 24px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  -ms-word-break: normal;
+  word-break: normal;
+}
+/*space4 end*/

@@ -19,7 +19,7 @@ var init = function () {
             id = $(this).attr("id"),
             name = $(this).attr("name");
         var template = '<div class="' + classes + '">';
-        template += '<span class="cstm-select-trigger">' + $(this).attr("placeholder") + '</span>';
+        template += '<span class="cstm-select-trigger"><span class="cstm-select-selected">' + $(this).attr("placeholder") + '</span></span>';
         template += '<div class="cstm-options">';
         $(this).find("option").each(function () {
             template += '<span class="cstm-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
@@ -47,7 +47,7 @@ var init = function () {
         $(this).parents(".cstm-options").find(".cstm-option").removeClass("selection");
         $(this).addClass("selection");
         $(this).parents(".cstm-select").removeClass("opened");
-        $(this).parents(".cstm-select").find(".cstm-select-trigger").text($(this).text());
+        $(this).parents(".cstm-select").find(".cstm-select-trigger").find(".cstm-select-selected").text($(this).text());
     });
 
 }

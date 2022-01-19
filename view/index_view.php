@@ -2,33 +2,46 @@
     <div class="row">
         <h1 class="text-danger col-12">It works!</h1>
     </div>
-    <div class="row">
-        <div class="col-6 text-center">
+    <div class="row mb-2">
+        <div class="col-6">
             <div class="space1">
                 <div class="center">
-                    <select name="sources" id="sources" class="cstm-select sources" placeholder="Source Type">
-                        <option value="profile">Profile</option>
-                        <option value="word">Word</option>
-                        <option value="hashtag">Hashtag</option>
+                    <select name="sources" id="sources" class="cstm-select sources" placeholder="イベント">
+                        <option>イベント子</option>
+                        <option>もうすぐ誕生日</option>
+                        <option>その他色々</option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="col-6 text-center">
             <div class="space2">
-                <button>Hover me !</button>
+                <button class="hover_green">Hover me !</button>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-2">
         <div class="col-6">
-            <div class="space3"></div>
+            <div class="space3">
+                <a href="#" class="btn-square-so-pop">BUTTON</a>
+            </div>
         </div>
         <div class="col-6">
-            <div class="space4"></div>
+            <div class="space4">
+                <p>これIEだめ</p>
+                <div class="selectdiv">
+                    <label>
+                        <select>
+                            <option selected>イベント</option>
+                            <option>もうすぐ誕生日</option>
+                            <option>その他色々</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-2">
         <div class="col-12">
             <button id="show_sakila">click show sakila</button>
         </div>
