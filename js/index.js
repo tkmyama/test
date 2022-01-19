@@ -14,6 +14,7 @@ var init = function () {
             cf.send_ajax("", params, next_action);
         });
     });
+    //space1
     $(".cstm-select").each(function () {
         var classes = $(this).attr("class"),
             id = $(this).attr("id"),
@@ -50,6 +51,44 @@ var init = function () {
         $(this).parents(".cstm-select").find(".cstm-select-trigger").find(".cstm-select-selected").text($(this).text());
     });
 
+    //space1end
+
+    //space4
+    var btn = document.getElementsByClassName("bt");
+    var i;
+    for (i = 0; i < btn.length; i++) {
+        btn[i].addEventListener("click", function () {
+            var panel = this.nextElementSibling;
+            if (panel.style.display == "block") {
+                $(panel).slideUp(300);
+            } else {
+                $(panel).slideDown(300);
+            }
+        })
+    }
+    //space4end
+
+    //space5start
+    $('input[type=checkbox]').change(function () {
+        counter = 0;
+        clicked = $(this).data('index');
+        $('input[type=checkbox]').each(function () {
+            if ($(this)[0].checked) {
+                counter++;
+               $('.block > span').text("ON")
+           }else{
+               $('.block > span').text("OFF")
+           }
+        });
+        if (counter == 3) {
+            toDisable = clicked;
+            while (toDisable == clicked) {
+                toDisable = Math.round(Math.random() * 2);
+            }
+            $("input:eq(" + toDisable + ")")[0].checked = false;
+        }
+    });
+    //space5end
 }
 var make_sakila_table = function (data) {
     var html = '';

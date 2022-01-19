@@ -28,16 +28,42 @@
         </div>
         <div class="col-6">
             <div class="space4">
-                <p>これIEだめ</p>
-                <div class="selectdiv">
-                    <label>
-                        <select>
-                            <option selected>イベント</option>
-                            <option>もうすぐ誕生日</option>
-                            <option>その他色々</option>
-                        </select>
-                    </label>
+                <div class="box">
+                    <!---->
+                    <button class="bt">Home<i class="fas fa-home"></i></button>
+                    <div class="panel">
+                        <span class="op_font">Home</span>
+                    </div>
+                    <!---->
+                    <button class="bt">About<i class="fas fa-users"></i></button>
+                    <div class="panel">
+                        <span class="op_font">About</span>
+                    </div>
+                    <!---->
+                    <button class="bt">Menu<i class="fas fa-chevron-circle-down"></i></button>
+                    <div class="panel">
+                        <span class="op_font">Menu</span>
+                    </div>
+                    <!---->
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6">
+            <div class="space5">
+                <div class="wrap">
+                    <div class="block">
+                        <span>OFF</span>
+                        <input data-index="0" id="on_off" type="checkbox" />
+                        <label for="on_off"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="space6">
+
             </div>
         </div>
     </div>

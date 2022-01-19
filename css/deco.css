@@ -224,61 +224,110 @@ body:before{
 
 /*space3 end*/
 /*space4 start*/
-.selectdiv {
-  position: relative;
-  /*Don't really need this just for demo styling*/
-  
-  float: left;
-  min-width: 200px;
+.panel {
+  border: 1px solid #1AAB8A;
+  border-left: none;
+  border-right:none;
+  background-color: white;
+  padding: 10px;
+  display: none;
 }
-
-/* IE11 hide native button (thanks Matt!) */
-select::-ms-expand {
-display: none;
-}
-
-.selectdiv:after {
-  content: '<>';
-  font: 17px "Consolas", monospace;
-  color: #333;
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
-  right: 11px;
-  /*Adjust for position however you want*/
-  
-  top: 9px;
-  padding: 0 0 2px;
-  border-bottom: 1px solid #999;
-  /*left line */
-  
-  position: absolute;
-  pointer-events: none;
-}
-.selectdiv label{
-  display: block !important;
-} 
-.selectdiv select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  /* Add some styling */
-  
+.box {
+  background-color: #eee;
   display: block;
+  display: inline-block;
+  width: 250px;
+  border: 1px solid #1AAB8A;
+}
+.bt{
+  display: block;
+  flex-grow: 1;
   width: 100%;
-  max-width: 320px;
-  height: 30px;
+  padding: 10px;
+  background-color: inherit;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+.bt:hover {
+  background-color: #ddd;
+  border: 1px solid #1AAB8A;
+}
+.fas {
   float: right;
-  margin: 5px 0px;
-  padding: 0px 24px;
-  font-size: 16px;
-  line-height: 1.75;
-  color: #333;
-  background-color: #ffffff;
-  background-image: none;
-  border: 1px solid #cccccc;
-  -ms-word-break: normal;
-  word-break: normal;
+}
+.op_font{
+  font-size:16px;
+}
+.bt:focus {
+    outline: none;
 }
 /*space4 end*/
+
+/*space5 start*/
+.space5 input{
+  display:none;  
+}
+.space5 .block{
+  width:120px;
+  position:relative;
+  clear:both;
+  margin:0;
+  float: left;
+}
+.space5 span{
+  text-transform:uppercase;
+  font-family:'Roboto Condensed', sans-serif;
+  font-weight:bold;
+  letter-spacing:1px;
+  font-size:16px;
+  font-weight:600;
+  float:right;
+  width:50px;
+  margin:4px 0 0;
+}
+.space5 .wrap{
+  width:120px;
+  position: absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+.space5 label{
+  width:60px;
+  height:30px;
+  box-sizing:border-box;
+  border:3px solid #7e7e7e;
+  float:left;
+  border-radius:30px;
+  position:relative;
+  cursor:pointer;
+  transition:.3s ease;
+}
+.space5 input[type=checkbox] + label{
+  background:#ff0000;
+}
+.space5 input[type=checkbox]:checked + label{
+  background:#00ffaa;
+}
+.space5 input[type=checkbox]:checked + label:before{
+  left:32px;
+  box-shadow: -2px 2px 5px #6a6a6a;
+}
+.space5 label:before{
+  transition:.3s ease;
+  content:'';
+  width:20px;
+  height:20px;
+  position:absolute;
+  background:#a1a1a1;
+  left:2px;
+  top:2px;
+  box-sizing:border-box;
+  color:black;
+  border:1px solid #bbbbbb;
+  border-radius:30px;
+  box-shadow: 2px 2px 5px #6a6a6a;
+}
+/*space5 end*/
