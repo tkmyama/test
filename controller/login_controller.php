@@ -1,10 +1,9 @@
 <?php
 require_once 'base_controller.php';
 
-class IndexController extends BaseController
-{
+class LoginController {
     function __construct()
     {
-        parent::__construct();
+            require_once 'login.php';
     }
 }

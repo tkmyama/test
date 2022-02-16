@@ -9,6 +9,12 @@ p {
     font-size: 1rem;
 }
 
+.container-xl{
+    min-width: 1410px;
+    width: 1410px;
+    max-width: 1410px;
+}
+
 .show {
     display: block !important;
 }
