@@ -1,4 +1,3 @@
-<?php require_once ROOTPATH . "common/const.php"; ?>
 
 <html>
 

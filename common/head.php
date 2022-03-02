@@ -1,4 +1,5 @@
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="lib\fontawesome\css\all.min.css">
     <link rel="stylesheet" href="<?=CSSPATH?>\lib\bootstrap.min.css">
     <link rel="stylesheet" href="<?=CSSPATH?>\lib\bootstrap-grid.min.css">

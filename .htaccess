@@ -1,10 +1,9 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
     RewriteBase /
-    RewriteRule ^test/index\.php$ - [L]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ test/index\.php [R=301]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule !.(php|pdf|ico|gif|jpg|png|css|html|xml|js)$ test.php
 </IfModule>
 
-ErrorDocument 404 test/index\.php
+ErrorDocument 404 test/error\.html

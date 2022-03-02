@@ -2,6 +2,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="lib\fontawesome\css\all.min.css">
     <link rel="stylesheet" href="css\lib\bootstrap.min.css">
     <link rel="stylesheet" href="css\lib\bootstrap-grid.min.css">
@@ -14,6 +15,7 @@
 <body>
     <?php
     require_once 'view/login_view.php';
+    var_dump($_SESSION);
     ?>
     <script type="text/javascript" src="js/lib/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-1.11.3.min.js"></script>
@@ -24,3 +26,6 @@
 </body>
 
 </html>
+    <?php
+    require_once 'model/catch_ajax.php';
+    ?>
