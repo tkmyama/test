@@ -19,7 +19,7 @@
                                     <input type="password" class="form-control" id="login_password" max-length="16" placeholder="半角4~16文字で入力">
                                     <small id="login_password_notice" class="form-text"></small>
                                 </div>
-                                <small id="login_error" class="form-text text-danger"></small>
+                                <small id="login_error" class="form-text text-danger mb-1"></small>
                                 <button type="button" class="btn btn-primary" id="login_button">ログイン</button>
                             </form>
                         </div>
@@ -51,7 +51,7 @@
                                     <input type="password" class="form-control" id="regist_password_confirm" placeholder="半角4~16文字で入力" data-okng="NG">
                                     <small id="regist_password_confirm_notice" class="form-text"></small>
                                 </div>
-                                <small id="regist_error" class="form-text text-danger"></small>
+                                <small id="regist_error" class="form-text text-danger mb-1"></small>
                                 <button type="button" class="btn btn-primary mt-2 disabled" id="regist_button">新規ユーザー登録</button>
                             </form>
                         </div>

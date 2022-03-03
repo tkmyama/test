@@ -1,23 +1,17 @@
 <?php
+require_once "../common/const.php";
+define("MISS_COUNT_LIMIT", "5"); //ログイン失敗回数用の
 $ajax = new CatchAjax();
 class CatchAjax
 {
-    var $sql;
-    var $table;
-    var $schema;
-    var $ajax_mode;
-    var $post;
-    var $bind_params;
     function __construct()
     {
-        if(isset($_POST["ajax_mode"])){
-            require_once "../common/const.php";
-            $this->ajax_catch();
+        if (isset($_POST["ajax_mode"])) {
+            $this->ajax_catch($_POST);
         }
     }
-    public function ajax_catch()
+    public function ajax_catch($post)
     {
-        $post = $_POST;
         $ajax_mode = $post["ajax_mode"];
         $sql = "";
         $bind_params = array();
@@ -41,7 +35,12 @@ class CatchAjax
                 $schema = 'test';
                 $table = 'mst_user';
                 $sql = '';
-                $sql .= 'select count(user_id) as count from ' . $schema . '.' . $table . ' where user_id = :user_id and del_flg != 1;';
+                $sql .= 'select count(user_id) as count from ' . $schema . '.' . $table;
+                $sql .= ' where ';
+                foreach ($bind_params as $key => $val) {
+                    $sql .= $key . ' = :' . $key . ' ';
+                }
+                $sql .= 'and del_flg != 1;';
                 break;
             case "user_regist":
                 $user_id = $post["user_id"];
@@ -56,16 +55,24 @@ class CatchAjax
                 $bind_params = array("user_id" => $user_id);
                 $schema = 'test';
                 $table = 'mst_user';
-                $columns = $this->exec_SQL('information_schema', 'select COLUMN_NAME from information_schema.columns where TABLE_SCHEMA = "' . $schema . '" and TABLE_NAME = "' . $table . '" order by ORDINAL_POSITION;');
-                $col_str = '';
-                foreach ($columns as $row => $column) {
-                    if ($row > 0) {
-                        $col_str .= ',';
-                    }
-                    $col_str .= $column["COLUMN_NAME"];
+                $sql = 'select user_id, password, miss_count, last_login_date from ' . $schema . '.' . $table;
+                $sql .= ' where ';
+                foreach ($bind_params as $key => $val) {
+                    $sql .= $key . ' = :' . $key . ' ';
                 }
-                $sql = 'select ' . $col_str . ' from ' . $schema . '.' . $table . ' where user_id = :user_id and del_flg != 1;';
+                $sql .= 'and del_flg != 1;';
                 break;
+                // case "check_cookie":
+                //     $cookie = unserialize($post[$_SERVER["HTTP_HOST"]]);
+                //     $user_id = $cookie["user_id"];
+                //     $bind_params = array("user_id" => $user_id);
+                //     $schema = 'test';
+                //     $table = 'mst_user';
+                //     $sql = 'select user_id, password from ' . $schema . '.' . $table . ' where user_id = :user_id and del_flg != 1;';
+                //     break;
+                // case "set_cookie":
+
+                //     break;
             case "logout":
                 session_start();
                 $_SESSION = array();
@@ -96,7 +103,6 @@ class CatchAjax
             $pdo = new PDO('mysql:charset=UTF8;dbname=' . $schema . ';host=localhost', 'root', 'admin');
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = $pdo->prepare($sql);
-
             foreach ($bind_params as $key => $val) {
                 $type = gettype($val);
                 switch ($type) {
@@ -141,17 +147,52 @@ class CatchAjax
         switch ($ajax_mode) {
             case "submit_login":
                 if (count($ret) > 0) {
-                    $pass_check = password_verify($post["password"], $ret[0]["password"]);
-                    if ($pass_check) {
+                    $user = $ret[0];
+                    $pass_check = password_verify($post["password"], $user["password"]);
+                    $release_time = date("YmdHis",strtotime($user["last_login_date"]." + 30 minutes")); 
+                    $submit_time = date("YmdHis");
+                    if ($user["miss_count"] > MISS_COUNT_LIMIT && $release_time > $submit_time) {
+                        $lock_check = true;
+                    } else {
+                        //開放されている
+                        $lock_check = false;
+                    }
+                    if ($pass_check && !$lock_check) {
                         if ($this->set_session($post)) {
                             $ret = array("login" => "OK");
+                            //ログイン成功したらmiss_countは0に戻す
+                            $sql = 'update test.mst_user set miss_count = 0 where user_id = "' . $user["user_id"] . '";';
+                            $this->exec_SQL("test", $sql);
                         } else {
                             $ret = array("error" => "セッションの保存に失敗しました。");
                         }
                     } else {
+                        //ログインミスした回数を記録しておく
+                        $sql = 'update test.mst_user set miss_count = (miss_count + 1) where user_id = "' . $user["user_id"] . '";';
+                        $this->exec_SQL("test", $sql);
                         $ret = array("login" => "NG");
+                        if($lock_check){
+                            $ret["locked"] = true;
+                        }else{
+                            $ret["locked"] = false;
+                        }
                     }
                 }
+                break;
+                // case "check_cookie":
+                //      if (count($ret) > 0) {
+                //         $pass_check = password_verify($post["password"], $ret[0]["password"]);
+                //         if ($pass_check) {
+                //             if ($this->set_session($post)) {
+                //                 $ret = array("login" => "OK");
+                //             } else {
+                //                 $ret = array("error" => "セッションの保存に失敗しました。");
+                //             }
+                //         } else {
+                //             $ret = array("login" => "NG");
+                //         }
+                //     }
+                //     break;
             default:
                 break;
         }

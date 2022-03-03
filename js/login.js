@@ -178,7 +178,6 @@ login.check_pass_strength = function (check_pass) {
                 var sp1 = (check_pass.match(/[^.*+\-?^${}()|[\]\\]/g) || []).length;
                 var sp2 = (check_pass.match(/[^0-9a-zA-Z]/g) || []).length;
                 if (sp1 > 0 && sp2 > 0) {
-                    console.log("kiteru");
                     point += p_point.sp_char;
                 }
                 break;
@@ -301,11 +300,6 @@ login.regist = function (user_id, password) {
             $("#confirm_modal").find(".modal-title").text("ユーザー登録完了しました");
             $("#confirm_modal").find(".modal-body").html('<p>' + user_id + 'さんのユーザー登録が完了いたしました<br>ログインフォームからログイン可能です。</p>');
             $("#confirm_modal").modal("show");
-            /*
-            $("#regist_error").empty();
-            var url = '/test/index.php';
-            location.href(url);
-            */
         } else {
             //失敗
             $("#regist_id_notice").empty();
@@ -330,14 +324,18 @@ login.submit_login = function (user_id, password) {
         "user_id": user_id,
         "password": password
     }
-        console.log(params);
     var next_action = function (json) {
         var data = JSON.parse(json);
-        console.log(data);
         if (data["login"] === "OK") {
-            location.href= "/test/test.php";
+            location.href = "/test/test.php";
         } else if (data["login"] === "NG") {
-            $("#login_error").text("ユーザーIDまたはパスワードが間違っています。");
+            if (data["locked"]) {
+                $("#login_error").text("ユーザーアカウントがロックされています。30分以上立ってからログインしてください");
+
+            } else {
+                $("#login_error").text("ユーザーIDまたはパスワードが間違っています。");
+
+            }
         }
     }
     cf.show_loading(function () {

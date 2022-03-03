@@ -7,19 +7,18 @@ cf.send_ajax = function (url, params, next_action) {
         "cache": false,
         "dataType": 'json',
         "data": params,
-        "always": function () {
-            cf.hide_loading();
-        },
         "success": function (data) {
             next_action(JSON.stringify(data));
         },
-        error: function (data) {
-            console.log(data.responseText);
+        "error": function (data) {
             alert("fail");
+        },
+        //レスポンスが返ってきたときに実行alwaysだとsuccess後に実行される
+        "complete": function () {
+            cf.hide_loading();
         }
     });
 }
-
 cf.show_loading = function (next_action) {
     $(".loading").addClass("show");
 
@@ -49,9 +48,29 @@ cf.check_fw = function (str) {
     });
     return str.replace(/[^!-~]/g, "");
 }
-$("#logout").unbind().on("click",function(){
-    var next_action = function(){
+// cf.check_cookie = function () {
+//     var hostname = location.hostname;
+//     var mycookie = document.cookie;
+//     console.log(mycookie);
+//     //hostnameと同じクッキーを持っていたらチェックしに行く
+//     if (mycookie[hostname]) {
+//         var next_action = function (json) {
+//             var data = JSON.parse(json);
+//             if (data["login"] === "OK") {
+//                 cf.auto_login();
+//             }
+//         };
+//         cf.send_ajax("", { "ajax_mode": "check_cookie" }, next_action);
+//     }
+// }
+// cf.auto_login = function () {
+//     alert("自動ログインしました。")
+//             location.href= "/test/test.php";
+// }
+// cf.check_cookie();
+$("#logout").unbind().on("click", function () {
+    var next_action = function () {
         location.href = "login.php";
     }
-    cf.send_ajax("",{"ajax_mode":"logout"},next_action)
+    cf.send_ajax("", { "ajax_mode": "logout" }, next_action)
 });

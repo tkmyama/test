@@ -15,8 +15,21 @@
 <body>
     <?php
     require_once 'view/login_view.php';
-    var_dump($_SESSION);
     ?>
+    <div class="loading">
+        <div class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+            <h6>loading...</h6>
+        </div>
+    </div>
     <script type="text/javascript" src="js/lib/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
@@ -26,6 +39,12 @@
 </body>
 
 </html>
-    <?php
-    require_once 'model/catch_ajax.php';
-    ?>
+<?php
+require_once "common/const.php";
+//ログインしているまたはクッキーが残っている場合にログインページを開こうとしたらリダイレクト
+if (isset($_SESSION[SESSION_KEY]) && $_SESSION[SESSION_KEY]["LOGIN"]) {
+    header("Location: test.php", true, 300);
+} else {
+    require_once 'login.php';
+}
+?>
