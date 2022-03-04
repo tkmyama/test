@@ -198,8 +198,9 @@ login.check_pass_strength = function (check_pass) {
         switch (key) {
             case "same_id_char":
                 var same_char_num = 0
-                for (var i in check_id) {
-                    var same = (check_pass.match(check_id[i]) || []).length;
+                for (var i in check_pass) {
+                    var same = (check_id.match(check_pass[i]) || []).length;
+                    
                     same_char_num += same;
                 }
                 if (same_char_num > 3) {

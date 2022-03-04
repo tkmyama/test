@@ -1,3 +1,14 @@
+<?php
+require_once "common/const.php";
+if(!isset($_SESSION)){
+    session_start();
+}
+if (isset($_SESSION[SESSION_KEY]) && $_SESSION[SESSION_KEY]["LOGIN"]) {
+    header("Location:/test/test.php", true, 301);
+    exit();
+}
+
+?>
 <html>
 
 <head>
@@ -39,12 +50,3 @@
 </body>
 
 </html>
-<?php
-require_once "common/const.php";
-//ログインしているまたはクッキーが残っている場合にログインページを開こうとしたらリダイレクト
-if (isset($_SESSION[SESSION_KEY]) && $_SESSION[SESSION_KEY]["LOGIN"]) {
-    header("Location: test.php", true, 300);
-} else {
-    require_once 'login.php';
-}
-?>

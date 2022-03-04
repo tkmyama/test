@@ -100,7 +100,11 @@ class CatchAjax
     {
         try {
             $com_type = substr($sql, 0, 6);
-            $pdo = new PDO('mysql:charset=UTF8;dbname=' . $schema . ';host=localhost', 'root', 'admin');
+            $encrypt_user = "/YNhJ5V0AOw3/WSCLhWkog==";
+            $decrypt_user = openssl_decrypt($encrypt_user,"aria-256-ecb",'unchi');
+            $encrypt_pass = "R9W0OwAT7OQ97qYzjuVzRg==";
+            $decrypt_pass = openssl_decrypt($encrypt_pass,"aria-256-ecb",'unchi');
+            $pdo = new PDO('mysql:charset=UTF8;dbname=' . $schema . ';host=localhost', $decrypt_user, $decrypt_pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = $pdo->prepare($sql);
             foreach ($bind_params as $key => $val) {
@@ -151,7 +155,7 @@ class CatchAjax
                     $pass_check = password_verify($post["password"], $user["password"]);
                     $release_time = date("YmdHis",strtotime($user["last_login_date"]." + 30 minutes")); 
                     $submit_time = date("YmdHis");
-                    if ($user["miss_count"] > MISS_COUNT_LIMIT && $release_time > $submit_time) {
+                    if ($user["miss_count"] >= MISS_COUNT_LIMIT && $release_time > $submit_time) {
                         $lock_check = true;
                     } else {
                         //開放されている
