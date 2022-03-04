@@ -1,9 +1,9 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine on
-    RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule !.(php|pdf|ico|gif|jpg|png|css|html|xml|js)$ test.php
-</IfModule>
-
-ErrorDocument 404 test/error\.html
+####<IfModule mod_rewrite.c>
+####    RewriteEngine on
+####    RewriteBase /
+####RewriteCond %{REQUEST_FILENAME} !-d
+####RewriteCond %{REQUEST_FILENAME} !-f
+####RewriteRule !.(php|pdf|ico|gif|jpg|png|css|html|xml|js)$ test.php
+####</IfModule>
+#### 
+####ErrorDocument 404 test/error\.html
