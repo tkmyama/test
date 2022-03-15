@@ -4,7 +4,7 @@ class LoginController {
     {
         //ログインしているのにログインページを開こうとしたらリダイレクト
         if (isset($_SESSION[SESSION_KEY]) && $_SESSION[SESSION_KEY]["LOGIN"]) {
-            header("Location:/test/test.php",true,301);
+            header("Location:/test/",true,301);
             exit();
         } else{
             require_once 'login.php';

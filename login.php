@@ -4,7 +4,7 @@ if(!isset($_SESSION)){
     session_start();
 }
 if (isset($_SESSION[SESSION_KEY]) && $_SESSION[SESSION_KEY]["LOGIN"]) {
-    header("Location:/test/test.php", true, 301);
+    header("Location:/test/index.php", true, 301);
     exit();
 }
 

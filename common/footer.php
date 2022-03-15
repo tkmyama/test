@@ -3,4 +3,5 @@
 <script type="text/javascript" src="<?=JSPATH?>/lib/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?=JSPATH?>/lib/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="<?=JSPATH?>/common_function.js?<?=time()?>"></script>
+<script type="text/javascript" src="<?=JSPATH?>/nav.js?<?=time()?>"></script>
 <script type="text/javascript" src="<?=JSPATH?>/<?=PAGE_NAME?>.js?<?=time()?>"></script>

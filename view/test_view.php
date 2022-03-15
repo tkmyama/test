@@ -1,7 +1,6 @@
 <div class="container-xl p-5">
     <div class="row">
-        <h1 class="text-danger col-11">It works!</h1>
-        <button id="logout" type="button" class="col-1 btn btn-sm btn-secondary">ログアウト</button>
+        <h1 class="text-danger col-11"><?=PAGE_NAME?></h1>
     </div>
     <div class="row d-flex">
         <div class="col-4 headline pr-0">

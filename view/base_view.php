@@ -5,10 +5,6 @@
 </head>
 
 <body>
-    <?php
-    require_once ROOTPATH . 'view/' . PAGE_NAME . '_view.php';
-    ?>
-    <?php require_once ROOTPATH . "common/footer.php"; ?>
     <div class="loading">
         <div class="sk-cube-grid">
             <div class="sk-cube sk-cube1"></div>
@@ -23,6 +19,11 @@
             <h6>loading...</h6>
         </div>
     </div>
+    <?php
+    require_once ROOTPATH . 'view/nav_view.php';
+    require_once ROOTPATH . 'view/' . PAGE_NAME . '_view.php';
+    ?>
+    <?php require_once ROOTPATH . "common/footer.php"; ?>
 </body>
 
 </html>

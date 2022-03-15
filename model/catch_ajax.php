@@ -73,6 +73,19 @@ class CatchAjax
                 // case "set_cookie":
 
                 //     break;
+            case "get_user_info":
+                $session = $this->get_session();
+                $user_id = $session["USER_ID"];
+                $bind_params = array("user_id" => $user_id);
+                $schema = 'test';
+                $table = 'mst_user';
+                $sql = 'select id ,user_id, password, miss_count, last_login_date from ' . $schema . '.' . $table;
+                $sql .= ' where ';
+                foreach ($bind_params as $key => $val) {
+                    $sql .= $key . ' = :' . $key . ' ';
+                }
+                $sql .= 'and del_flg != 1;';
+                break;
             case "logout":
                 session_start();
                 $_SESSION = array();
@@ -215,5 +228,11 @@ class CatchAjax
         } else {
             return false;
         }
+    }
+    
+    private function get_session()
+    {
+        session_start();
+        return $_SESSION[SESSION_KEY];
     }
 }

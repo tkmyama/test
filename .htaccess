@@ -1,9 +1,18 @@
-####<IfModule mod_rewrite.c>
-####    RewriteEngine on
-####    RewriteBase /
-####RewriteCond %{REQUEST_FILENAME} !-d
-####RewriteCond %{REQUEST_FILENAME} !-f
-####RewriteRule !.(php|pdf|ico|gif|jpg|png|css|html|xml|js)$ test.php
-####</IfModule>
-#### 
-####ErrorDocument 404 test/error\.html
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} /test/(.*)
+RewriteCond %{REQUEST_URI} !(^/test/index.php)
+RewriteCond %{REQUEST_URI} !(^/test/favicon.ico)
+RewriteCond %{REQUEST_URI} !(^/test/login.php)
+RewriteCond %{REQUEST_URI} !(^/test/common/)
+RewriteCond %{REQUEST_URI} !(^/test/lib/)
+RewriteCond %{REQUEST_URI} !(^/test/controller/)
+RewriteCond %{REQUEST_URI} !(^/test/view/)
+RewriteCond %{REQUEST_URI} !(^/test/css/)
+RewriteCond %{REQUEST_URI} !(^/test/js/)
+RewriteCond %{REQUEST_URI} !(^/test/model/)
+RewriteRule .* test/index.php?page=%1 [R=301,L]
+
+</IfModule>

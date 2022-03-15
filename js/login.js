@@ -127,13 +127,13 @@ login.check_pass_strength = function (check_pass) {
         "space": "スペースは使わないでください。"//スペースが存在
     }
     var p_total = {
-        0: '<i class="fas fa-times-circle mr-2">とても脆弱</i>',
-        1: '<i class="fas fa-times-circle mr-2">やや脆弱</i>',
-        2: '<i class="fas fa-times-circle mr-2">弱い</i>',
-        3: '<i class="fas fa-check-circle mr-2">普通</i>',
-        4: '<i class="fas fa-check-circle mr-2">強い</i>',
-        5: '<i class="fas fa-check-circle mr-2">やや強固</i>',
-        6: '<i class="fas fa-check-circle mr-2">とても強固</i>'
+        0: 'パスワードの強さ:<i class="fas fa-times-circle mr-2">とても脆弱</i>',
+        1: 'パスワードの強さ:<i class="fas fa-times-circle mr-2">やや脆弱</i>',
+        2: 'パスワードの強さ:<i class="fas fa-times-circle mr-2">弱い</i>',
+        3: 'パスワードの強さ:<i class="fas fa-check-circle mr-2">普通</i>',
+        4: 'パスワードの強さ:<i class="fas fa-check-circle mr-2">強い</i>',
+        5: 'パスワードの強さ:<i class="fas fa-check-circle mr-2">やや強固</i>',
+        6: 'パスワードの強さ:<i class="fas fa-check-circle mr-2">とても強固</i>'
     }
     var point = 0;
     for (var key in p_point) {
@@ -328,7 +328,7 @@ login.submit_login = function (user_id, password) {
     var next_action = function (json) {
         var data = JSON.parse(json);
         if (data["login"] === "OK") {
-            location.href = "/test/test.php";
+            location.href = "/test/index.php";
         } else if (data["login"] === "NG") {
             if (data["locked"]) {
                 $("#login_error").text("ユーザーアカウントがロックされています。30分以上立ってからログインしてください");

@@ -21,12 +21,11 @@ cf.send_ajax = function (url, params, next_action) {
 }
 cf.show_loading = function (next_action) {
     $(".loading").addClass("show");
-
     setTimeout(function () {
         if (typeof next_action === 'function') {
             next_action();
         }
-    }, 800);
+    }, 500);
 
 }
 cf.hide_loading = function (next_action) {
@@ -68,9 +67,3 @@ cf.check_fw = function (str) {
 //             location.href= "/test/test.php";
 // }
 // cf.check_cookie();
-$("#logout").unbind().on("click", function () {
-    var next_action = function () {
-        location.href = "login.php";
-    }
-    cf.send_ajax("", { "ajax_mode": "logout" }, next_action)
-});

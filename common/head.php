@@ -6,5 +6,6 @@
     <link rel="stylesheet" href="<?=CSSPATH?>\lib\bootstrap-reboot.min.css">
     <link rel="stylesheet" href="<?=CSSPATH?>\common.css?<?=time()?>">
     <link rel="stylesheet" href="<?=CSSPATH?>\deco.css?<?=time()?>">
+    <link rel="stylesheet" href="<?=CSSPATH?>\nav.css?<?=time()?>">
     <link rel="stylesheet" href="<?=CSSPATH?>\<?=PAGE_NAME?>.css?<?=time()?>">
     <title>NMRTEST</title>
