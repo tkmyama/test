@@ -19,7 +19,7 @@ login.binds = function () {
     $("#login_id").on("keyup blur", function () {
         var str = $(this).val()
         if (str.length < 3) {
-            $("#login_id_notice").removeClass("text-danger text-success").addClass("text-muted").text("4文字以上で入力してください。")
+            $("#login_id_notice").removeClass("text-danger text-success").addClass("text-muted").text("半角英数4文字以上で入力してください。")
         } else {
             $("#login_id_notice").removeClass("text-danger text-success").addClass("text-muted").empty();
         }
@@ -41,7 +41,7 @@ login.binds = function () {
     $("#regist_id").on("keyup blur", function () {
         var str = $(this).val()
         if (str.length < 4) {
-            $("#regist_id_notice").removeClass("text-danger text-success").addClass("text-muted").text("4文字以上で入力してください。")
+            $("#regist_id_notice").removeClass("text-danger text-success").addClass("text-muted").text("半角英数4文字以上で入力してください。")
         } else {
             login.check_id_registable(str);
         }
@@ -50,7 +50,7 @@ login.binds = function () {
     $("#regist_password").on("keyup blur", function () {
         var str = $(this).val()
         if (str.length < 4) {
-            $("#regist_password_notice").removeClass("text-danger text-success").addClass("text-muted").text("4文字以上で入力してください。")
+            $("#regist_password_notice").removeClass("text-danger text-success").addClass("text-muted").text("半角英数4文字以上で入力してください。")
         } else {
             $("#regist_password_notice").removeClass("text-muted");
             login.check_pass_strength(str);
@@ -96,7 +96,8 @@ login.check_id_registable = function (check_id) {
     params["user_id"] = check_id;
     var next_action = function (json) {
         var data = JSON.parse(json);
-        if (data["count"] > 0) {
+        var row = data[0];
+        if (row["count"] > 0) {
             $("#regist_id_notice").removeClass("text-muted text-success").addClass("text-danger").html('<i class="fas fa-times-circle mr-2">使用不可</i>');
             $("#regist_id").data("okng", "NG");
         } else {

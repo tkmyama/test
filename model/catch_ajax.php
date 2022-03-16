@@ -50,12 +50,22 @@ class CatchAjax
                 $table = 'mst_user';
                 $sql .= 'insert into ' . $schema . '.' . $table . ' (user_id,password) values (:user_id,:password);';
                 break;
+            case "check_pass":
+                $session = $this->get_session();
+                //実装途中
+                // $user_id = $post["password"];
+                // $password = password_hash($post["password"], PASSWORD_DEFAULT);
+                // $bind_params = array("user_id" => $user_id, "password" => $password);
+                // $schema = 'test';
+                // $table = 'mst_user';
+                // $sql .= 'insert into ' . $schema . '.' . $table . ' (user_id,password) values (:user_id,:password);';
+                break;
             case "submit_login":
                 $user_id = $post["user_id"];
                 $bind_params = array("user_id" => $user_id);
                 $schema = 'test';
                 $table = 'mst_user';
-                $sql = 'select user_id, password, miss_count, last_login_date from ' . $schema . '.' . $table;
+                $sql = 'select id, user_id, password, miss_count, last_login_date from ' . $schema . '.' . $table;
                 $sql .= ' where ';
                 foreach ($bind_params as $key => $val) {
                     $sql .= $key . ' = :' . $key . ' ';
@@ -79,12 +89,25 @@ class CatchAjax
                 $bind_params = array("user_id" => $user_id);
                 $schema = 'test';
                 $table = 'mst_user';
-                $sql = 'select id ,user_id, password, miss_count, last_login_date from ' . $schema . '.' . $table;
+                $sql = 'select id ,user_id, password, miss_count, last_login_date, ins_date from ' . $schema . '.' . $table;
                 $sql .= ' where ';
                 foreach ($bind_params as $key => $val) {
                     $sql .= $key . ' = :' . $key . ' ';
                 }
                 $sql .= 'and del_flg != 1;';
+                break;
+            case "mod_user_id":
+                $session = $this->get_session();
+                $id = $session["ID"];
+                $user_id = $session["USER_ID"];
+
+                $change_user_id = $post["change_user_id"];
+
+                $bind_params = array("id"=> $id,"user_id" => $user_id,"change_user_id"=>$change_user_id);
+                $schema = 'test';
+                $table = 'mst_user';
+                $sql = 'update ' . $schema . '.' . $table .' set user_id = :change_user_id where id = :id and user_id = :user_id';
+                $sql .= ' and del_flg != 1;';
                 break;
             case "logout":
                 session_start();
@@ -114,9 +137,9 @@ class CatchAjax
         try {
             $com_type = substr($sql, 0, 6);
             $encrypt_user = "/YNhJ5V0AOw3/WSCLhWkog==";
-            $decrypt_user = openssl_decrypt($encrypt_user,"aria-256-ecb",'unchi');
+            $decrypt_user = openssl_decrypt($encrypt_user, "aria-256-ecb", 'unchi');
             $encrypt_pass = "R9W0OwAT7OQ97qYzjuVzRg==";
-            $decrypt_pass = openssl_decrypt($encrypt_pass,"aria-256-ecb",'unchi');
+            $decrypt_pass = openssl_decrypt($encrypt_pass, "aria-256-ecb", 'unchi');
             $pdo = new PDO('mysql:charset=UTF8;dbname=' . $schema . ';host=localhost', $decrypt_user, $decrypt_pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = $pdo->prepare($sql);
@@ -166,7 +189,7 @@ class CatchAjax
                 if (count($ret) > 0) {
                     $user = $ret[0];
                     $pass_check = password_verify($post["password"], $user["password"]);
-                    $release_time = date("YmdHis",strtotime($user["last_login_date"]." + 30 minutes")); 
+                    $release_time = date("YmdHis", strtotime($user["last_login_date"] . " + 30 minutes"));
                     $submit_time = date("YmdHis");
                     if ($user["miss_count"] >= MISS_COUNT_LIMIT && $release_time > $submit_time) {
                         $lock_check = true;
@@ -174,23 +197,25 @@ class CatchAjax
                         //開放されている
                         $lock_check = false;
                     }
+
+                    $time = date("Y-m-d H:i:s");
                     if ($pass_check && !$lock_check) {
-                        if ($this->set_session($post)) {
+                        if ($this->set_session($user)) {
                             $ret = array("login" => "OK");
                             //ログイン成功したらmiss_countは0に戻す
-                            $sql = 'update test.mst_user set miss_count = 0 where user_id = "' . $user["user_id"] . '";';
+                            $sql = 'update test.mst_user set miss_count = 0, last_login_date = "' . $time . '" where user_id = "' . $user["user_id"] . '";';
                             $this->exec_SQL("test", $sql);
                         } else {
                             $ret = array("error" => "セッションの保存に失敗しました。");
                         }
                     } else {
-                        //ログインミスした回数を記録しておく
-                        $sql = 'update test.mst_user set miss_count = (miss_count + 1) where user_id = "' . $user["user_id"] . '";';
+                        //ログインミスした回数を記録しておく(last_login_dateもロック時間計算のため更新)
+                        $sql = 'update test.mst_user set miss_count = (miss_count + 1), last_login_date = "' . $time . '" where user_id = "' . $user["user_id"] . '";';
                         $this->exec_SQL("test", $sql);
                         $ret = array("login" => "NG");
-                        if($lock_check){
+                        if ($lock_check) {
                             $ret["locked"] = true;
-                        }else{
+                        } else {
                             $ret["locked"] = false;
                         }
                     }
@@ -216,20 +241,21 @@ class CatchAjax
         return $ret;
     }
 
-    private function set_session($post)
+    private function set_session($user)
     {
         session_start();
         $_SESSION[SESSION_KEY] = array();
         $_SESSION[SESSION_KEY]["SESSION_ID"] = session_regenerate_id();
         if ($_SESSION[SESSION_KEY]["SESSION_ID"]) {
             $_SESSION[SESSION_KEY]["LOGIN"] = true;
-            $_SESSION[SESSION_KEY]["USER_ID"] = $post["user_id"];
+            $_SESSION[SESSION_KEY]["ID"] = $user["id"];
+            $_SESSION[SESSION_KEY]["USER_ID"] = $user["user_id"];
             return true;
         } else {
             return false;
         }
     }
-    
+
     private function get_session()
     {
         session_start();

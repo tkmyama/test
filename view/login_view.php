@@ -11,12 +11,12 @@
                             <form>
                                 <div class="form-group">
                                     <label for="login_id">ID</label>
-                                    <input type="tel" class="form-control" id="login_id" max-length="20" placeholder="半角英数4~20文字で入力">
+                                    <input type="tel" class="form-control" id="login_id" maxlength="20" placeholder="半角英数4~20文字で入力">
                                     <small id="login_id_notice" class="form-text"></small>
                                 </div>
                                 <div class="form-group">
                                     <label for="login_password">パスワード</label>
-                                    <input type="password" class="form-control" id="login_password" max-length="16" placeholder="半角4~16文字で入力">
+                                    <input type="password" class="form-control" id="login_password" maxlength="16" placeholder="半角4~16文字で入力">
                                     <small id="login_password_notice" class="form-text"></small>
                                 </div>
                                 <small id="login_error" class="form-text text-danger mb-1"></small>
