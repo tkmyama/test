@@ -28,6 +28,24 @@
 
                         </li>
                         <li class="list-group-item">
+                            <h5 class="card-title">パスワード</h5>
+                            <div class="row px-5">
+                                <p class="card-text text-dark col-8 mb-0" id="user_id">＊＊＊＊＊＊＊＊＊＊＊＊＊</p>
+                                <button id="show_change_pass_box" class="btn btn-sm btn-outline-primary col-2 ml-auto mb-0">変更</button>
+                                <button id="hide_change_pass_box" class="btn btn-sm btn-outline-secondary col-2 ml-auto mb-0">やめる</button>
+                            </div>
+                            <form id="change_pass_box" class="form-inline row px-5" onsubmit="return false;">
+                                <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control col-8 mr-auto" id="change_password" data-okng="NG" maxlength="20" placeholder="変更後のパスワードを入力してください。">
+                                    <input type="text" class="form-control col-8 mr-auto" id="change_password_confirm" data-okng="NG" maxlength="20" placeholder="変更後のパスワードを再入力してください。">
+                                    <input type="button" id="submit_change_pass" class="btn btn-sm btn-primary col-2 ml-auto disabled" disabled="disabled" value="保存">
+                                </div>
+                                <small id="change_password_notice" class="form-text"></small>
+                                <small id="change_password_confirm_notice" class="form-text"></small>
+                            </form>
+
+                        </li>
+                        <li class="list-group-item">
                             <h5 class="card-title">登録日時</h5>
                             <p class="card-text text-dark px-5" id="regist_date"></p>
                         </li>

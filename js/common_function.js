@@ -11,6 +11,7 @@ cf.send_ajax = function (url, params, next_action) {
             next_action(JSON.stringify(data));
         },
         "error": function (data) {
+            console.log(data);
             alert("fail");
         },
         //レスポンスが返ってきたときに実行alwaysだとsuccess後に実行される
