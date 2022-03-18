@@ -111,6 +111,8 @@ login.check_id_registable = function (check_id) {
 //パスワードの強さを出す
 login.check_pass_strength = function (check_pass) {
     var check_id = $("#regist_id").val();
+    check_id = cf.sani(check_id);
+    check_pass = cf.sani(check_pass);
     //パスワードの強さはポイント制にする。
     var p_point = {
         "char_length": 1,//８文字以上
@@ -176,7 +178,7 @@ login.check_pass_strength = function (check_pass) {
                 }
                 break;
             case "sp_char"://記号（特殊文字は省く）
-                var sp1 = (check_pass.match(/[^.*+\-?^${}()|[\]\\]/g) || []).length;
+                var sp1 = (check_pass.match(/[-\/\\^$*+?.()|\[\]{}]/g) || []).length;
                 var sp2 = (check_pass.match(/[^0-9a-zA-Z]/g) || []).length;
                 if (sp1 > 0 && sp2 > 0) {
                     point += p_point.sp_char;
@@ -197,27 +199,27 @@ login.check_pass_strength = function (check_pass) {
     var error = [];
     for (var key in p_error) {
         switch (key) {
+            case "deny_char":
+                var deny_char = (check_pass.match(/[-\/\\^$*+?.()|\[\]{}]/g) || []).length;
+                if (deny_char > 0) {
+                    error.push(p_error[key]);
+                }
+                break;
             case "same_id_char":
                 var same_char_num = 0
                 for (var i in check_pass) {
                     var same = (check_id.match(check_pass[i]) || []).length;
-                    
+
                     same_char_num += same;
                 }
                 if (same_char_num > 3) {
-                    error.push(p_error[key])
-                }
-                break;
-            case "deny_char":
-                var deny_char = (check_pass.match(/[.*+\-?^${}()|[\]\\]/g) || []).length;
-                if (deny_char > 0) {
-                    error.push(p_error[key])
+                    error.push(p_error[key]);
                 }
                 break;
             case "space":
                 var space = (check_pass.match(/\s+/g) || []).length;
                 if (space > 0) {
-                    error.push(p_error[key])
+                    error.push(p_error[key]);
                 }
                 break;
         }

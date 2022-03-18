@@ -48,6 +48,14 @@ cf.check_fw = function (str) {
     });
     return str.replace(/[^!-~]/g, "");
 }
+cf.sani = function(str){
+  return String(str).replace(/&/g,"&amp;")
+    .replace(/"/g,"&quot;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/\\/g,"\\")
+    .replace(/\//g,"\/")
+}
 // cf.check_cookie = function () {
 //     var hostname = location.hostname;
 //     var mycookie = document.cookie;

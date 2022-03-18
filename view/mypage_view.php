@@ -36,12 +36,12 @@
                             </div>
                             <form id="change_pass_box" class="form-inline row px-5" onsubmit="return false;">
                                 <div class="form-group form-group-sm">
-                                    <input type="text" class="form-control col-8 mr-auto" id="change_password" data-okng="NG" maxlength="20" placeholder="変更後のパスワードを入力してください。">
-                                    <input type="text" class="form-control col-8 mr-auto" id="change_password_confirm" data-okng="NG" maxlength="20" placeholder="変更後のパスワードを再入力してください。">
-                                    <input type="button" id="submit_change_pass" class="btn btn-sm btn-primary col-2 ml-auto disabled" disabled="disabled" value="保存">
+                                    <input type="password" class="form-control col-8 mr-auto" id="change_password" data-okng="NG" maxlength="20" placeholder="変更後のパスワードを入力してください。">
+                                    <small id="change_password_notice" class="form-text col-12 mb-2"><pre> </pre></small>
+                                    <input type="password" class="form-control col-8 mr-auto" id="change_password_confirm" data-okng="NG" maxlength="20" placeholder="変更後のパスワードを再入力してください。">
+                                    <input type="button" id="submit_change_password" class="btn btn-sm btn-primary col-2 ml-auto disabled" disabled="disabled" value="保存">
+                                    <small id="change_password_confirm_notice" class="form-text col-12 mb-2"><pre> </pre></small>
                                 </div>
-                                <small id="change_password_notice" class="form-text"></small>
-                                <small id="change_password_confirm_notice" class="form-text"></small>
                             </form>
 
                         </li>
@@ -67,7 +67,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
             </div>
             <div class="modal-body">
-                <p>確認のためパスワードを入力後にOKボタンを押してください。</p>
+                <p>確認のため現在のパスワードを入力後にOKボタンを押してください。</p>
                 <div class="form-group">
                     <label for="password">パスワード</label>
                     <input type="password" class="form-control" id="password" placeholder="半角4~16文字で入力" maxlength="16">

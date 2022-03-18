@@ -54,8 +54,8 @@ mp.binds = function () {
             mp.check_pass_confirm(input_pass, confirm_pass);
         }
     });
-    //ID入力全角があったら半角に
-    $("#change_user_id").on("change", function () {
+    //入力全角があったら半角に
+    $("#change_user_id,#change_password,#change_password_confirm").on("change", function () {
         var str = $(this).val();
         var ret_str = cf.check_fw(str)
         $(this).val(ret_str);
@@ -72,7 +72,15 @@ mp.binds = function () {
     $("#submit_change_user_id").unbind().on("click", function () {
         if (!$(this).hasClass("disabled")) {
             var change_user_id = $("#change_user_id").val();
-            mp.confirm_pass(change_user_id);
+            var after_func = mp.mod_user_id;
+            mp.confirm_pass(change_user_id, after_func);
+        }
+    });
+    $("#submit_change_password").unbind().on("click", function () {
+        if (!$(this).hasClass("disabled")) {
+            var change_password = $("#change_password").val();
+            var after_func = mp.mod_password;
+            mp.confirm_pass(change_password, after_func);
         }
     });
 }
@@ -132,13 +140,23 @@ mp.check_pass_changable = function () {
     var flg_pass = $("#change_password").data("okng");
     var flg_pass_confirm = $("#change_password_confirm").data("okng");
 
-    if (flg_pass === "OK" && flg_pass_confirm === "OK" ) {
+    if (flg_pass === "OK" && flg_pass_confirm === "OK") {
         $("#submit_change_password").removeClass("disabled").prop("disabled", false);
     } else {
         if (!$("#submit_change_password").hasClass("disabled")) {
             $("#submit_change_password").addClass("disabled").prop("disabled", true);
         }
     }
+}
+mp.check_pass_confirm = function (input_pass, confirm_pass) {
+    if (input_pass != "" && confirm_pass != "" && input_pass === confirm_pass) {
+        $("#change_password_confirm_notice").removeClass("text-muted text-danger").addClass("text-success").html('<i class="fas fa-check-circle mr-2">OK</i>');
+        $("#change_password_confirm").data("okng", "OK");
+    } else {
+        $("#change_password_confirm_notice").removeClass("text-muted text-success").addClass("text-danger").html('<i class="fas fa-times-circle mr-2">NG</i>');
+        $("#change_password_confirm").data("okng", "NG");
+    }
+    mp.check_pass_changable();
 }
 mp.mod_user_id = function (change_user_id) {
     //ユーザーID変更処理
@@ -172,7 +190,64 @@ mp.mod_user_id = function (change_user_id) {
     });
 
 }
-mp.confirm_pass = function (change_user_id) {
+mp.mod_password = function (change_password) {
+    //ユーザーID変更処理
+    var params = {};
+    params["ajax_mode"] = "mod_password";
+    params["change_password"] = change_password;
+    var next_action = function (json) {
+        var data = JSON.parse(json);
+        if (!data["error"]) {
+            //成功していたらまずログアウト状態にする。
+            cf.send_ajax("", { "ajax_mode": "logout" }, function (){return false;})
+            $("#change_password_notice").empty();
+            $("#change_password").val("");
+            //成功
+            $("#confirm_modal").find(".modal-title").empty().text("パスワードの変更が完了しました");
+            $("#confirm_modal").find(".modal-body").empty().html('<p>パスワードの変更が完了いたしました。<br>自動再ログインが行われます。</p>');
+            $("#confirm_modal").modal("show");
+            $('#confirm_modal').on('hidden.bs.modal', function (e) {
+                //モーダル閉じられたらリロード
+                mp.reset_login($("#user_id").text(),change_password);
+            });
+
+        } else {
+            //失敗
+            $("#confirm_modal").find(".modal-title").empty().text("パスワードの変更に失敗しました。");
+            $("#confirm_modal").find(".modal-body").empty().html('<p>パスワードの変更に失敗しました<br>お手数ですがもう一度お願いします。</p>');
+            $("#confirm_modal").modal("show");
+            $("#change_password_notice").empty();
+            $("#change_password").val("");
+            $('#confirm_modal').on('hidden.bs.modal', function (e) {
+                //モーダル閉じられたらリロード
+                location.reload();
+            });
+        }
+    };
+    cf.show_loading(function () {
+        cf.send_ajax("", params, next_action);
+    });
+
+}
+mp.reset_login = function (user_id,password) {
+    var params = {
+        "ajax_mode": "submit_login",
+        "user_id": user_id,
+        "password": password
+    }
+    var next_action = function (json) {
+        var data = JSON.parse(json);
+        if (data["login"] === "OK") {
+            location.href = "/test/mypage";
+        } else {
+            return false;
+        }
+    }
+    cf.show_loading(function () {
+        cf.send_ajax("", params, next_action);
+    });
+}
+mp.confirm_pass = function (param, after_func) {
     $("#confirm_pass").modal("show");
     $("#confirm_pass").find("#check_pass").unbind().on("click", function () {
         var params = {};
@@ -182,7 +257,7 @@ mp.confirm_pass = function (change_user_id) {
             var data = JSON.parse(json);
             $("#confirm_pass").modal("hide");
             if (data["pass_check"] === "OK") {
-                mp.mod_user_id(change_user_id);
+                after_func(param);
 
             } else if (data["pass_check"] === "LOGOUT") {
                 //パスワードミス既定値超え
@@ -294,7 +369,7 @@ mp.check_pass_strength = function (check_pass) {
                 var same_char_num = 0
                 for (var i in check_pass) {
                     var same = (check_id.match(check_pass[i]) || []).length;
-                    
+
                     same_char_num += same;
                 }
                 if (same_char_num > 3) {

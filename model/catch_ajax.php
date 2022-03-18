@@ -112,7 +112,19 @@ class CatchAjax
                 $table = 'mst_user';
                 $sql = 'update ' . $schema . '.' . $table . ' set user_id = :change_user_id where id = :id and user_id = :user_id';
                 $sql .= ' and del_flg != 1;';
-                error_log($sql);
+                break;
+            case "mod_password":
+                $session = $this->get_session();
+                $id = $session["ID"];
+                $user_id = $session["USER_ID"];
+
+                $change_password = password_hash($post["change_password"], PASSWORD_DEFAULT);
+
+                $bind_params = array("id" => $id, "user_id" => $user_id, "change_password" => $change_password);
+                $schema = 'test';
+                $table = 'mst_user';
+                $sql = 'update ' . $schema . '.' . $table . ' set password = :change_password where id = :id and user_id = :user_id';
+                $sql .= ' and del_flg != 1;';
                 break;
             case "logout":
                 session_start();
@@ -189,9 +201,9 @@ class CatchAjax
     }
     private function check_func($ajax_mode, $post, $ret)
     {
-        if ($ret) {
-            switch ($ajax_mode) {
-                case "submit_login":
+        switch ($ajax_mode) {
+            case "submit_login":
+                if (!empty($ret)) {
                     $user = $ret[0];
                     $pass_check = password_verify($post["password"], $user["password"]);
                     $release_time = date("YmdHis", strtotime($user["last_login_date"] . " + 30 minutes"));
@@ -224,56 +236,57 @@ class CatchAjax
                             $ret["locked"] = false;
                         }
                     }
-                    break;
-                case "check_pass":
-                    $user = $ret[0];
-                    $pass_check = password_verify($post["password"], $user["password"]);
+                }else{
+                    //USER_IDのデータが見つからない場合。
+                    $ret = array("login"=>"NG");
+                }
+                break;
+            case "check_pass":
+                $user = $ret[0];
+                $pass_check = password_verify($post["password"], $user["password"]);
 
-                    if ($pass_check) {
-                        $ret = array("pass_check" => "OK");
-                    } else {
-                        $ret = array("pass_check" => "NG");
-                        //パスワードミスしたらミス回数プラス。
-                        $sql = 'update test.mst_user set miss_count = (miss_count + 1)';
-                        if ($user["miss_count"] >= (MISS_COUNT_LIMIT - 1)) {
-                            //この時ミスカウントが限界-1の時はログインミスと同じようにlast_login_dateも更新
-                            $time = date("Y-m-d H:i:s");
-                            $sql .= ', last_login_date = "' . $time . '"';
-                            //強制ログアウト
-                            $_SESSION = array();
-                            session_destroy();
-                            $ret = array("pass_check" => "LOGOUT");
-                        }
-                        $sql .= ' where user_id = "' . $user["user_id"] . '";';
-
-                        $this->exec_SQL("test", $sql);
+                if ($pass_check) {
+                    $ret = array("pass_check" => "OK");
+                } else {
+                    $ret = array("pass_check" => "NG");
+                    //パスワードミスしたらミス回数プラス。
+                    $sql = 'update test.mst_user set miss_count = (miss_count + 1)';
+                    if ($user["miss_count"] >= (MISS_COUNT_LIMIT - 1)) {
+                        //この時ミスカウントが限界-1の時はログインミスと同じようにlast_login_dateも更新
+                        $time = date("Y-m-d H:i:s");
+                        $sql .= ', last_login_date = "' . $time . '"';
+                        //強制ログアウト
+                        $_SESSION = array();
+                        session_destroy();
+                        $ret = array("pass_check" => "LOGOUT");
                     }
-                    break;
-                    case "mod_user_id":
-                        //ログインしている前提
-                        //セッションを変更したユーザIDに書き換える
+                    $sql .= ' where user_id = "' . $user["user_id"] . '";';
 
-                        $_SESSION[SESSION_KEY]["USER_ID"] = $post["change_user_id"];
-                        break;
-                    // case "check_cookie":
-                    //      if (count($ret) > 0) {
-                    //         $pass_check = password_verify($post["password"], $ret[0]["password"]);
-                    //         if ($pass_check) {
-                    //             if ($this->set_session($post)) {
-                    //                 $ret = array("login" => "OK");
-                    //             } else {
-                    //                 $ret = array("error" => "セッションの保存に失敗しました。");
-                    //             }
-                    //         } else {
-                    //             $ret = array("login" => "NG");
-                    //         }
-                    //     }
-                    //     break;
-                default:
-                    break;
-            }
-        }else{
-            return false;
+                    $this->exec_SQL("test", $sql);
+                }
+                break;
+            case "mod_user_id":
+                //ログインしている前提
+                //セッションを変更したユーザIDに書き換える
+
+                $_SESSION[SESSION_KEY]["USER_ID"] = $post["change_user_id"];
+                break;
+                // case "check_cookie":
+                //      if (count($ret) > 0) {
+                //         $pass_check = password_verify($post["password"], $ret[0]["password"]);
+                //         if ($pass_check) {
+                //             if ($this->set_session($post)) {
+                //                 $ret = array("login" => "OK");
+                //             } else {
+                //                 $ret = array("error" => "セッションの保存に失敗しました。");
+                //             }
+                //         } else {
+                //             $ret = array("login" => "NG");
+                //         }
+                //     }
+                //     break;
+            default:
+                break;
         }
         return $ret;
     }
